@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DatabaseTest {
 
@@ -58,5 +59,36 @@ public class DatabaseTest {
         db.clear();
 
         assertEquals(db.size(), 0);
+    }
+
+    @Test
+    @DisplayName("Test delete product")
+    public void deleteProduct() {
+        db.insert(new Product(1, "Coca Cola 3lt"));
+        db.insert(new Product(2, "Gansito"));
+        db.insert(new Product(3, "Mordisko"));
+        db.insert(new Product(4, "Sabritas 30g"));
+
+        assertEquals(db.size(), 4);
+
+        assertTrue(db.deleteProduct(1));
+
+        assertEquals(db.size(), 3);
+    }
+
+    @Test
+    @DisplayName("Test update product")
+    public void updateProduct() {
+        db.insert(new Product(1, "Coca Cola 3lt"));
+        db.insert(new Product(2, "Gansito"));
+        db.insert(new Product(3, "Mordisko"));
+        db.insert(new Product(4, "Sabritas 30g"));
+
+        db.updateProduct(2, new Product(2, "Pingüinos"));
+
+        Product p = db.getById(2);
+
+        assertEquals(p.getId(), 2);
+        assertEquals(p.getName(), "Pingüinos");
     }
 }
